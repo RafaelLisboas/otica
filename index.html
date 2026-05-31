@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ótica Regina - Gestão</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main id="login-view" class="login-shell">
+      <section class="login-panel">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <img class="brand-logo-image" src="assets/logo-regina2.png" alt="" onload="this.parentElement.classList.add('has-logo')" onerror="this.remove()">
+            <span class="eye-shape"><span class="iris"></span></span>
+          </div>
+          <div>
+            <strong>Ótica Regina</strong>
+            <span>Gestão interna</span>
+          </div>
+        </div>
+        <form id="login-form" class="login-form">
+          <h1>Acesso ao sistema</h1>
+          <label>
+            Usuário
+            <input id="login-user" autocomplete="username" value="admin" required>
+          </label>
+          <label>
+            Senha
+            <input id="login-pass" type="password" autocomplete="current-password" value="admin123" required>
+          </label>
+          <button type="submit">Entrar</button>
+          <p id="login-error" class="form-error" role="alert"></p>
+          <p class="login-hint">Acesso inicial: admin / admin123</p>
+        </form>
+      </section>
+      <aside class="login-art" aria-label="Resumo do sistema">
+        <div class="hero-brand">
+          <div class="hero-eye" aria-hidden="true">
+            <img class="hero-logo-image" src="assets/logo-regina2.png" alt="" onload="this.parentElement.classList.add('has-logo')" onerror="this.remove()">
+            <span class="eye-shape"><span class="iris"></span></span>
+          </div>
+          <div class="hero-name">
+            <span>Ótica</span>
+            <strong>Regina</strong>
+          </div>
+        </div>
+        <div class="lens-card">
+          <span>Clientes</span>
+          <strong id="login-client-count">0</strong>
+        </div>
+        <div class="lens-card">
+          <span>Receitas</span>
+          <strong id="login-prescription-count">0</strong>
+        </div>
+        <div class="lens-card">
+          <span>Estoque</span>
+          <strong id="login-stock-count">0</strong>
+        </div>
+      </aside>
+    </main>
+
+    <main id="app-view" class="app-shell is-hidden">
+      <aside class="sidebar">
+        <div class="brand-row">
+          <div class="brand-mark" aria-hidden="true">
+            <img class="brand-logo-image" src="assets/logo-regina2.png" alt="" onload="this.parentElement.classList.add('has-logo')" onerror="this.remove()">
+            <span class="eye-shape"><span class="iris"></span></span>
+          </div>
+          <div>
+            <strong>Ótica Regina</strong>
+            <span>Gestão interna</span>
+          </div>
+        </div>
+        <nav class="nav-list" aria-label="Módulos">
+          <button class="nav-item is-active" data-route="dashboard" type="button">Painel</button>
+          <button class="nav-item" data-route="clients" type="button">Clientes</button>
+          <button class="nav-item" data-route="prescriptions" type="button">Receitas</button>
+          <button class="nav-item" data-route="stock" type="button">Estoque</button>
+        </nav>
+        <button id="logout-button" class="ghost-button" type="button">Sair</button>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p id="section-kicker">Painel</p>
+            <h1 id="section-title">Visão geral</h1>
+          </div>
+          <div class="topbar-actions">
+            <input id="global-search" type="search" placeholder="Buscar cliente, telefone ou CPF">
+            <button id="quick-client-button" type="button">Novo cliente</button>
+          </div>
+        </header>
+
+        <section id="dashboard-section" class="view-section">
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Clientes cadastrados</span>
+              <strong id="metric-clients">0</strong>
+            </article>
+            <article class="metric">
+              <span>Receitas registradas</span>
+              <strong id="metric-prescriptions">0</strong>
+            </article>
+            <article class="metric">
+              <span>Itens abaixo do mínimo</span>
+              <strong id="metric-low-stock">0</strong>
+            </article>
+          </div>
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Últimas receitas</h2>
+              </div>
+              <div id="recent-prescriptions" class="timeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Alertas de estoque</h2>
+              </div>
+              <div id="stock-alerts" class="stock-alerts"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="clients-section" class="view-section is-hidden">
+          <div id="client-list-view" class="clients-layout">
+            <section class="panel clients-list-panel">
+              <div class="panel-header">
+                <h2>Clientes cadastrados</h2>
+                <div class="panel-actions">
+                  <input id="client-search" type="search" placeholder="Buscar por nome, CPF ou telefone">
+                  <button id="new-client-button" type="button">Novo cliente</button>
+                </div>
+              </div>
+              <div id="clients-list" class="list-stack"></div>
+            </section>
+          </div>
+          <div id="client-detail-view" class="client-detail-layout is-hidden">
+            <section class="client-profile">
+              <button id="back-to-clients" class="secondary-button" type="button">Voltar para clientes</button>
+              <div id="client-summary" class="summary-grid"></div>
+            </section>
+            <section class="panel client-form-panel">
+              <div class="panel-header">
+                <h2 id="client-form-title">Novo cliente</h2>
+              </div>
+              <form id="client-form" class="form-grid">
+                <input id="client-id" type="hidden">
+                <label>Nome completo<input id="client-name" required></label>
+                <label>CPF<input id="client-cpf"></label>
+                <label>Telefone<input id="client-phone" required></label>
+                <label>Email<input id="client-email" type="email"></label>
+                <label>Data de nascimento<input id="client-birth" type="date"></label>
+                <label>Endereço<input id="client-address"></label>
+                <div class="form-actions">
+                  <button type="submit">Salvar cliente</button>
+                  <button id="clear-client-form" class="secondary-button" type="button">Limpar</button>
+                </div>
+              </form>
+              <div class="history-block">
+                <h3>Histórico de receitas</h3>
+                <div id="client-history" class="prescription-selector muted-empty">Selecione um cliente para ver o histórico.</div>
+                <div id="selected-prescription" class="selected-prescription is-hidden"></div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section id="prescriptions-section" class="view-section is-hidden">
+          <div class="prescriptions-layout">
+            <section class="panel prescription-form-panel">
+              <div class="panel-header">
+                <h2>Registrar receita</h2>
+              </div>
+              <form id="prescription-form" class="prescription-sheet">
+                <div class="prescription-top-fields">
+                  <label>Cliente
+                    <input id="prescription-client-search" autocomplete="off" placeholder="Digite nome, CPF ou telefone" required>
+                    <input id="prescription-client" type="hidden" required>
+                    <div id="prescription-client-results" class="search-results is-hidden"></div>
+                  </label>
+                  <label>Data da receita<input id="prescription-date" type="date" required></label>
+                  <label>Profissional<input id="prescription-doctor"></label>
+                  <label>CRM<input id="prescription-crm"></label>
+                </div>
+
+                <section class="rx-table-block">
+                  <h3>Dados da lente</h3>
+                  <div class="lens-info-grid">
+                    <label>Tipo de lente<input id="lens-type" placeholder="Ex.: multifocal"></label>
+                    <label>Coloração<input id="lens-coloring" placeholder="Ex.: incolor, marrom"></label>
+                    <label>Material
+                      <select id="lens-material">
+                        <option value="">Selecione</option>
+                        <option value="resina">Resina</option>
+                        <option value="poly">Poly</option>
+                        <option value="trivex">Trivex</option>
+                      </select>
+                    </label>
+                    <label>Tratamento<input id="lens-treatment" placeholder="Ex.: antirreflexo, blue"></label>
+                  </div>
+                </section>
+
+                <section class="rx-table-block">
+                  <h3>Longe</h3>
+                  <div class="rx-table">
+                    <div class="rx-head"></div>
+                    <div class="rx-head">Esférico</div>
+                    <div class="rx-head">Cilíndrico</div>
+                    <div class="rx-head">Eixo</div>
+                    <div class="rx-eye">OD</div>
+                    <input id="right-spherical" class="rx-power" list="power-options" placeholder="+0.00">
+                    <input id="right-cylindrical" class="rx-power" list="power-options" placeholder="-0.00">
+                    <input id="right-axis" placeholder="0 a 180">
+                    <div class="rx-eye">OE</div>
+                    <input id="left-spherical" class="rx-power" list="power-options" placeholder="+0.00">
+                    <input id="left-cylindrical" class="rx-power" list="power-options" placeholder="-0.00">
+                    <input id="left-axis" placeholder="0 a 180">
+                  </div>
+                </section>
+
+                <section class="rx-table-block">
+                  <h3>Perto</h3>
+                  <div class="rx-table">
+                    <div class="rx-head"></div>
+                    <div class="rx-head">Esférico</div>
+                    <div class="rx-head">Cilíndrico</div>
+                    <div class="rx-head">Eixo</div>
+                    <div class="rx-eye">OD</div>
+                    <input id="near-right-spherical" class="rx-power" list="power-options" placeholder="+0.00">
+                    <input id="near-right-cylindrical" class="rx-power" list="power-options" placeholder="-0.00">
+                    <input id="near-right-axis" placeholder="0 a 180">
+                    <div class="rx-eye">OE</div>
+                    <input id="near-left-spherical" class="rx-power" list="power-options" placeholder="+0.00">
+                    <input id="near-left-cylindrical" class="rx-power" list="power-options" placeholder="-0.00">
+                    <input id="near-left-axis" placeholder="0 a 180">
+                  </div>
+                </section>
+
+                <section class="rx-table-block">
+                  <h3>Medidas</h3>
+                  <div class="measure-grid">
+                    <label>Adição<input id="addition" class="rx-power" list="power-options" placeholder="+0.00"></label>
+                    <label>DNP<input id="dnp" placeholder="Ex.: 31/32"></label>
+                    <label>C.O<input id="co" placeholder="Ex.: 22"></label>
+                    <label>Película<input id="film" placeholder="Ex.: antirreflexo"></label>
+                    <label>D.P<input id="dp" placeholder="Ex.: 62"></label>
+                  </div>
+                </section>
+
+                <label class="sheet-notes">Observações<textarea id="prescription-notes" rows="3"></textarea></label>
+                <div class="form-actions">
+                  <button type="submit">Salvar receita</button>
+                  <button id="clear-prescription-form" class="secondary-button" type="button">Limpar</button>
+                </div>
+                <datalist id="power-options"></datalist>
+              </form>
+            </section>
+            <section class="panel prescriptions-list-panel">
+              <div class="panel-header">
+                <h2>Histórico geral</h2>
+                <input id="prescription-search" type="search" placeholder="Buscar por cliente ou profissional">
+              </div>
+              <div id="prescriptions-list" class="timeline"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="stock-section" class="view-section is-hidden">
+          <div class="stock-layout">
+            <section class="panel stock-form-panel">
+              <div class="panel-header">
+                <h2 id="stock-form-title">Novo item</h2>
+              </div>
+              <form id="stock-form" class="form-grid">
+                <input id="stock-id" type="hidden">
+                <label>Produto<input id="stock-name" required></label>
+                <label>Marca<input id="stock-brand"></label>
+                <label>Código do produto<input id="stock-code"></label>
+                <label>Categoria
+                  <select id="stock-category">
+                    <option value="frames">Armações</option>
+                    <option value="lenses">Lentes</option>
+                    <option value="accessories">Acessórios</option>
+                  </select>
+                </label>
+                <label>Material
+                  <select id="stock-material">
+                    <option value="">Selecione</option>
+                    <option value="acetato">Acetato</option>
+                    <option value="nylon">Nylon</option>
+                    <option value="metal">Metal</option>
+                    <option value="parafusada">Parafusada</option>
+                  </select>
+                </label>
+                <label>Referência de cor<input id="stock-color-reference" placeholder="Ex.: preto fosco, azul C12"></label>
+                <label>Quantidade<input id="stock-quantity" type="number" min="0" required></label>
+                <label>Estoque mínimo<input id="stock-minimum" type="number" min="0" required></label>
+                <label>Custo<input id="stock-cost" type="number" min="0" step="0.01"></label>
+                <label>Preço de venda<input id="stock-price" type="number" min="0" step="0.01"></label>
+                <div class="form-actions">
+                  <button type="submit">Salvar item</button>
+                  <button id="clear-stock-form" class="secondary-button" type="button">Limpar</button>
+                </div>
+              </form>
+            </section>
+            <section class="panel stock-list-panel">
+              <div class="panel-header">
+                <h2>Estoque</h2>
+                <select id="stock-filter">
+                  <option value="all">Todos</option>
+                  <option value="low">Abaixo do mínimo</option>
+                  <option value="frames">Armações</option>
+                  <option value="lenses">Lentes</option>
+                  <option value="accessories">Acessórios</option>
+                </select>
+              </div>
+              <div id="stock-list" class="stock-table"></div>
+            </section>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="api.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -208,6 +208,23 @@ textarea:focus {
   font-size: 1.5rem;
 }
 
+#login-view .brand-mark {
+  width: 240px;
+  height: 240px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16), 0 28px 60px rgba(0, 0, 0, 0.25);
+}
+
+#login-view .brand-logo-image {
+  display: none;
+  width: 100%;
+  height: 100%;
+  max-width: 220px;
+  max-height: 220px;
+  object-fit: contain;
+}
+
 .brand-mark {
   width: 120px;
   height: 120px;

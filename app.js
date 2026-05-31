@@ -165,7 +165,7 @@ async function handleLogin(event) {
   }
 }
 
-function handleLogout() {
+async function handleLogout() {
   try {
     await apiPost("/api/logout", {});
   } catch {
@@ -655,7 +655,7 @@ function buildPrescriptionPrintHtml(client, prescription, mode) {
         </div>
         <main class="page">
           <header class="header">
-            <img src="${location.origin}/assets/logo-regina2.png" alt="Logo ${escapeHtml(storeInfo.name)}">
+            <img src="${location.origin}/assets/vetor.png" alt="Logo ${escapeHtml(storeInfo.name)}">
             <div>
               <h1>${escapeHtml(storeInfo.name)}</h1>
               <p>${escapeHtml(storeInfo.subtitle)}</p>

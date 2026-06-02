@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block body %}
+  <main class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="eye-shape"><span class="iris"></span></span>
+        </div>
+        <div>
+          <strong>Ótica Regina</strong>
+          <span>Gestão interna</span>
+        </div>
+      </div>
+
+      <nav class="nav-list" aria-label="Módulos">
+        <a class="nav-item {% if request.resolver_match.url_name == 'dashboard' %}is-active{% endif %}" href="{% url 'dashboard' %}">Painel</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'clients' %}is-active{% endif %}" href="{% url 'clients' %}">Clientes</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'prescriptions' %}is-active{% endif %}" href="{% url 'prescriptions' %}">Receitas</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'sales' %}is-active{% endif %}" href="{% url 'sales' %}">Vendas</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'stock' %}is-active{% endif %}" href="{% url 'stock' %}">Estoque</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'finance' %}is-active{% endif %}" href="{% url 'finance' %}">Financeiro</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'lab_orders' %}is-active{% endif %}" href="{% url 'lab_orders' %}">Laboratório</a>
+        <a class="nav-item {% if request.resolver_match.url_name == 'settings' %}is-active{% endif %}" href="{% url 'settings' %}">Config.</a>
+      </nav>
+
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="ghost-button" type="submit">Sair</button>
+      </form>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <p>{% block kicker %}Painel{% endblock %}</p>
+          <h1>{% block heading %}Visão geral{% endblock %}</h1>
+          {% if active_store %}
+            <span class="store-chip">{{ active_store.name }}</span>
+          {% endif %}
+        </div>
+        <div class="topbar-actions">
+          {% block actions %}{% endblock %}
+        </div>
+      </header>
+
+      {% block content %}{% endblock %}
+    </section>
+  </main>
+{% endblock %}

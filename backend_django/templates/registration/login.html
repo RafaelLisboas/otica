@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Acesso - Ótica Regina{% endblock %}
+
+{% block body %}
+  <main class="login-shell">
+    <section class="login-panel">
+      <div class="brand-row">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="eye-shape"><span class="iris"></span></span>
+        </div>
+        <div>
+          <strong>Ótica Regina</strong>
+          <span>Gestão interna</span>
+        </div>
+      </div>
+
+      <form method="post" class="login-form">
+        {% csrf_token %}
+        <h1>Acesso ao sistema</h1>
+        {% if form.errors %}
+          <p class="form-error">Usuário ou senha inválidos.</p>
+        {% endif %}
+        <label>
+          Usuário
+          {{ form.username }}
+        </label>
+        <label>
+          Senha
+          {{ form.password }}
+        </label>
+        <button type="submit">Entrar</button>
+      </form>
+    </section>
+  </main>
+{% endblock %}

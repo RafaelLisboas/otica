@@ -1,0 +1,74 @@
+{% extends "app_base.html" %}
+
+{% block title %}Painel - Ótica Regina{% endblock %}
+{% block kicker %}Painel{% endblock %}
+{% block heading %}Visão geral{% endblock %}
+
+{% block content %}
+  <section class="dashboard-hero">
+    <div>
+      <span class="eyebrow">Resumo comercial</span>
+      <h2>Dashboard da loja</h2>
+      <p>Vendas, clientes, financeiro, estoque e laboratório em uma visão rápida.</p>
+    </div>
+    <div class="hero-total">
+      <span>Vendas registradas</span>
+      <strong>{{ sale_count }}</strong>
+      <small>{{ quote_count }} orçamentos cadastrados</small>
+    </div>
+  </section>
+
+  <section class="metric-grid">
+    <article class="metric">
+      <span>Clientes</span>
+      <strong>{{ client_count }}</strong>
+      <small>Cadastros ativos</small>
+    </article>
+    <article class="metric metric-open">
+      <span>Orçamentos</span>
+      <strong>{{ quote_count }}</strong>
+      <small>Em histórico comercial</small>
+    </article>
+    <article class="metric metric-receivable">
+      <span>Parcelas abertas</span>
+      <strong>{{ open_installments }}</strong>
+      <small>Financeiro a acompanhar</small>
+    </article>
+    <article class="metric">
+      <span>Estoque baixo</span>
+      <strong>{{ low_stock_count }}</strong>
+      <small>Itens no mínimo ou abaixo</small>
+    </article>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Clientes recentes</h2>
+      <a class="secondary-button" href="{% url 'clients' %}">Abrir clientes</a>
+    </div>
+    <div class="table-shell">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>CPF</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for client in recent_clients %}
+            <tr>
+              <td>{{ client.name }}</td>
+              <td>{{ client.phone }}</td>
+              <td>{{ client.cpf|default:"-" }}</td>
+            </tr>
+          {% empty %}
+            <tr>
+              <td colspan="3">Nenhum cliente encontrado para a loja ativa.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

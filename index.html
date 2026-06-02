@@ -10,8 +10,8 @@
     <main id="login-view" class="login-shell">
       <section class="login-panel">
         <div class="brand-row">
-          <div class="brand-mark" aria-hidden="true">
-          <img class="brand-logo-image" src="assets/vetor.png" alt="" onload="this.parentElement.classList.add('has-logo')" onerror="this.remove()">
+          <div class="brand-mark has-logo" aria-hidden="true">
+            <img class="brand-logo-image" src="assets/vetor.png" alt="">
             <span class="eye-shape"><span class="iris"></span></span>
           </div>
           <div>
@@ -39,8 +39,8 @@
     <main id="app-view" class="app-shell is-hidden">
       <aside class="sidebar">
         <div class="brand-row">
-          <div class="brand-mark" aria-hidden="true">
-            <img class="brand-logo-image" src="assets/vetor.png" alt="" onload="this.parentElement.classList.add('has-logo')" onerror="this.remove()">
+          <div class="brand-mark has-logo" aria-hidden="true">
+            <img class="brand-logo-image" src="assets/vetor.png" alt="">
             <span class="eye-shape"><span class="iris"></span></span>
           </div>
           <div>
@@ -52,7 +52,12 @@
           <button class="nav-item is-active" data-route="dashboard" type="button">Painel</button>
           <button class="nav-item" data-route="clients" type="button">Clientes</button>
           <button class="nav-item" data-route="prescriptions" type="button">Receitas</button>
+          <button class="nav-item" data-route="sales" type="button">Vendas</button>
+          <button class="nav-item" data-route="quotations" type="button">Orçamentos</button>
           <button class="nav-item" data-route="stock" type="button">Estoque</button>
+          <button class="nav-item" data-route="finance" type="button">Financeiro</button>
+          <button class="nav-item" data-route="reports" type="button">Relatórios</button>
+          <button class="nav-item" data-route="settings" type="button">Config.</button>
         </nav>
         <button id="logout-button" class="ghost-button" type="button">Sair</button>
       </aside>
@@ -70,30 +75,106 @@
         </header>
 
         <section id="dashboard-section" class="view-section">
-          <div class="metric-grid">
-            <article class="metric">
-              <span>Clientes cadastrados</span>
-              <strong id="metric-clients">0</strong>
+          <div class="dashboard-hero">
+            <div>
+              <span class="eyebrow">Resumo comercial</span>
+              <h2>Dashboard da loja</h2>
+              <p>Vendas, orçamentos abertos, recebíveis e alertas importantes em uma visão rápida.</p>
+              <div id="dashboard-insights" class="dashboard-insights"></div>
+            </div>
+            <div class="hero-total">
+              <span>Vendas do mês</span>
+              <strong id="metric-sales-value">R$ 0,00</strong>
+              <small id="metric-sales-count">0 vendas fechadas</small>
+            </div>
+          </div>
+
+          <div class="metric-grid dashboard-metrics">
+            <article class="metric metric-open">
+              <span>Orçamentos abertos</span>
+              <strong id="metric-open-quotes">0</strong>
+              <small id="metric-open-quotes-value">R$ 0,00 em negociação</small>
             </article>
-            <article class="metric">
-              <span>Receitas registradas</span>
-              <strong id="metric-prescriptions">0</strong>
+            <article class="metric metric-success">
+              <span>Vendas fechadas</span>
+              <strong id="metric-closed-quotes">0</strong>
+              <small id="metric-average-ticket">Ticket médio R$ 0,00</small>
+            </article>
+            <article class="metric metric-receivable">
+              <span>A receber</span>
+              <strong id="metric-receivable">R$ 0,00</strong>
+              <small id="metric-overdue">0 parcelas vencidas</small>
             </article>
             <article class="metric">
               <span>Itens abaixo do mínimo</span>
               <strong id="metric-low-stock">0</strong>
+              <small id="metric-stock-status">Estoque monitorado</small>
             </article>
           </div>
-          <div class="content-grid">
+
+          <div class="dashboard-analytics-grid">
+            <section class="panel chart-panel">
+              <div class="panel-header">
+                <h2>Vendas dos últimos meses</h2>
+                <span id="dashboard-growth-rate" class="panel-badge">0%</span>
+              </div>
+              <div id="dashboard-sales-chart" class="sales-chart"></div>
+            </section>
+            <section class="panel chart-panel">
+              <div class="panel-header">
+                <h2>Funil comercial</h2>
+                <span id="dashboard-conversion-rate" class="panel-badge">0%</span>
+              </div>
+              <div id="dashboard-funnel" class="funnel-chart"></div>
+            </section>
+            <section class="panel chart-panel">
+              <div class="panel-header">
+                <h2>Saúde financeira</h2>
+                <button class="secondary-button" type="button" data-route-button="finance">Abrir financeiro</button>
+              </div>
+              <div id="dashboard-finance-health" class="finance-health"></div>
+            </section>
+            <section class="panel chart-panel">
+              <div class="panel-header">
+                <h2>Contas do dia</h2>
+                <span id="dashboard-today-total" class="panel-badge">R$ 0,00</span>
+              </div>
+              <div id="dashboard-today-accounts" class="timeline compact-timeline"></div>
+            </section>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel dashboard-main-panel">
+              <div class="panel-header">
+                <h2>Últimas vendas</h2>
+                <button class="secondary-button" type="button" data-route-button="sales">Ver vendas</button>
+              </div>
+              <div id="recent-sales" class="timeline compact-timeline"></div>
+            </section>
             <section class="panel">
               <div class="panel-header">
-                <h2>Últimas receitas</h2>
+                <h2>Orçamentos abertos</h2>
+                <button class="secondary-button" type="button" data-route-button="quotations">Ver orçamentos</button>
               </div>
-              <div id="recent-prescriptions" class="timeline"></div>
+              <div id="dashboard-open-quotes" class="timeline compact-timeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Formas de pagamento</h2>
+              </div>
+              <div id="dashboard-payment-methods" class="payment-breakdown"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Próximos recebimentos</h2>
+                <button class="secondary-button" type="button" data-route-button="finance">Ver financeiro</button>
+              </div>
+              <div id="dashboard-next-installments" class="timeline compact-timeline"></div>
             </section>
             <section class="panel">
               <div class="panel-header">
                 <h2>Alertas de estoque</h2>
+                <button class="secondary-button" type="button" data-route-button="stock">Ver estoque</button>
               </div>
               <div id="stock-alerts" class="stock-alerts"></div>
             </section>
@@ -110,6 +191,7 @@
                   <button id="new-client-button" type="button">Novo cliente</button>
                 </div>
               </div>
+              <div id="global-search-results" class="global-search-results is-hidden"></div>
               <div id="clients-list" class="list-stack"></div>
             </section>
           </div>
@@ -135,6 +217,10 @@
                   <button id="clear-client-form" class="secondary-button" type="button">Limpar</button>
                 </div>
               </form>
+              <div class="history-block">
+                <h3>Saúde financeira</h3>
+                <div id="client-financial-history" class="client-financial-panel muted-empty">Selecione um cliente para ver o histórico financeiro.</div>
+              </div>
               <div class="history-block">
                 <h3>Histórico de receitas</h3>
                 <div id="client-history" class="prescription-selector muted-empty">Selecione um cliente para ver o histórico.</div>
@@ -244,6 +330,112 @@
           </div>
         </section>
 
+        <section id="sales-section" class="view-section is-hidden">
+          <div class="split-layout">
+            <section class="panel sales-form-panel">
+              <div class="panel-header">
+                <h2>Orçamentos e vendas</h2>
+              </div>
+              <form id="sales-form" class="sales-form-grid">
+                <input id="sales-id" type="hidden">
+                <div class="sales-form-section sales-client-section">
+                  <h3>Cliente e vínculo</h3>
+                  <div class="sales-section-grid">
+                    <label class="client-search-field">Cliente
+                      <input id="sales-client-search" autocomplete="off" placeholder="Digite nome, CPF ou telefone cadastrado" required>
+                      <input id="sales-client" type="hidden" required>
+                      <div id="sales-client-results" class="search-results is-hidden"></div>
+                      <span id="sales-client-summary" class="row-meta"></span>
+                    </label>
+                    <label>Receita / O.S. vinculada
+                      <select id="sales-prescription-link">
+                        <option value="">Selecione um cliente para ver receitas e O.S.</option>
+                      </select>
+                      <span id="sales-os-hint" class="row-meta"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="sales-form-section sales-items-section">
+                  <h3>Itens e valores</h3>
+                  <div class="sales-section-grid sales-values-grid">
+                    <label>Serviço / descrição<input id="sales-service" required></label>
+                    <label>Código da armação<input id="sales-frame-code" placeholder="Ex.: ARM-AC-001"><span id="sales-frame-hint" class="row-meta"></span></label>
+                    <label>Valor da armação<input id="sales-frame-amount" type="number" step="0.01" min="0" readonly></label>
+                    <label>Valor da lente<input id="sales-lens-amount" type="number" step="0.01" min="0"></label>
+                    <label>Valor da consulta<input id="sales-consultation-amount" type="number" step="0.01" min="0"></label>
+                    <label>Regra da consulta
+                      <select id="sales-consultation-status">
+                        <option value="with_purchase">Cliente comprou óculos - cobra 50%</option>
+                        <option value="without_purchase">Não comprou óculos - cobra integral</option>
+                        <option value="exempt">Trouxe receita - isento</option>
+                      </select>
+                    </label>
+                    <label class="sales-total-field">Valor total<input id="sales-total" type="number" step="0.01" min="0" required></label>
+                  </div>
+                </div>
+
+                <div class="sales-form-section sales-payment-section">
+                  <h3>Pagamento</h3>
+                  <div class="sales-section-grid">
+                    <label>Forma de pagamento
+                      <select id="sales-payment-method">
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="cartao">Cartão</option>
+                        <option value="boleto">Boleto</option>
+                        <option value="carne">Carnê</option>
+                      </select>
+                    </label>
+                    <label>Valor nesta forma<input id="sales-primary-payment-amount" type="number" step="0.01" min="0"></label>
+                    <label>2ª forma de pagamento
+                      <select id="sales-secondary-payment-method">
+                        <option value="">Não combinar</option>
+                        <option value="dinheiro">Dinheiro</option>
+                        <option value="cartao">Cartão</option>
+                        <option value="boleto">Boleto</option>
+                        <option value="carne">Carnê</option>
+                      </select>
+                    </label>
+                    <label id="sales-secondary-payment-label" class="is-hidden">Valor na 2ª forma<input id="sales-secondary-payment-amount" type="number" step="0.01" min="0"></label>
+                    <div id="sales-plan-fields" class="sales-plan-fields is-hidden">
+                      <label>Entrada<input id="sales-downpayment" type="number" step="0.01" min="0"></label>
+                      <label>Parcelas<input id="sales-installments" type="number" min="1" max="24" value="1"></label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="sales-form-section sales-notes-section">
+                  <h3>Observações</h3>
+                  <label>Observações<textarea id="sales-notes" rows="3"></textarea></label>
+                </div>
+                <p id="sales-error" class="form-error" role="alert"></p>
+                <div class="form-actions">
+                  <button type="submit" data-sales-action="quote">Gerar orçamento</button>
+                  <button type="submit" data-sales-action="sale">Fechar venda</button>
+                  <button id="print-current-quote" class="secondary-button" type="button">Imprimir orçamento</button>
+                  <button id="clear-sales-form" class="secondary-button" type="button">Limpar</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="panel sales-list-panel">
+              <div class="panel-header">
+                <h2>Vendas fechadas</h2>
+              </div>
+              <div id="sales-list" class="timeline"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="quotations-section" class="view-section is-hidden">
+          <section class="panel">
+            <div class="panel-header">
+              <h2>Orçamentos pendentes</h2>
+            </div>
+            <div id="quotations-list" class="timeline"></div>
+          </section>
+        </section>
+
         <section id="stock-section" class="view-section is-hidden">
           <div class="stock-layout">
             <section class="panel stock-form-panel">
@@ -258,7 +450,7 @@
                 <label>Categoria
                   <select id="stock-category">
                     <option value="frames">Armações</option>
-                    <option value="lenses">Lentes</option>
+                    <option value="sports">Óculos esporte</option>
                     <option value="accessories">Acessórios</option>
                   </select>
                 </label>
@@ -285,20 +477,152 @@
             <section class="panel stock-list-panel">
               <div class="panel-header">
                 <h2>Estoque</h2>
-                <select id="stock-filter">
-                  <option value="all">Todos</option>
-                  <option value="low">Abaixo do mínimo</option>
-                  <option value="frames">Armações</option>
-                  <option value="lenses">Lentes</option>
-                  <option value="accessories">Acessórios</option>
-                </select>
+                <div class="stock-category-tabs" role="tablist" aria-label="Categorias do estoque">
+                  <button class="is-active" type="button" data-stock-category="frames">Armações <span id="stock-count-frames">0</span></button>
+                  <button type="button" data-stock-category="sports">Óculos esporte <span id="stock-count-sports">0</span></button>
+                  <button type="button" data-stock-category="accessories">Acessórios <span id="stock-count-accessories">0</span></button>
+                </div>
+                <button id="export-stock-button" class="secondary-button" type="button">Exportar CSV</button>
+                <button id="print-stock-button" class="secondary-button" type="button">PDF</button>
               </div>
               <div id="stock-list" class="stock-table"></div>
             </section>
           </div>
         </section>
+
+        <section id="finance-section" class="view-section is-hidden">
+          <div id="finance-list-view">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Clientes com financeiro</h2>
+                <div class="panel-actions">
+                  <input id="finance-search" type="search" placeholder="Buscar cliente, CPF ou telefone">
+                  <select id="finance-filter">
+                    <option value="open">Com parcelas abertas</option>
+                    <option value="overdue">Com parcelas vencidas</option>
+                    <option value="paid">Com parcelas pagas</option>
+                    <option value="all">Todos</option>
+                  </select>
+                  <button id="export-finance-button" class="secondary-button" type="button">Exportar CSV</button>
+                  <button id="print-finance-button" class="secondary-button" type="button">PDF</button>
+                </div>
+              </div>
+              <div id="finance-list" class="timeline"></div>
+            </section>
+          </div>
+          <section id="finance-detail-view" class="panel is-hidden">
+            <div class="panel-header">
+              <h2 id="finance-client-title">Vida financeira</h2>
+              <button id="finance-back-button" class="secondary-button" type="button">Voltar</button>
+            </div>
+            <div id="finance-client-summary" class="finance-summary-grid"></div>
+            <div id="finance-detail-list" class="timeline"></div>
+          </section>
+        </section>
+
+        <section id="reports-section" class="view-section is-hidden">
+          <section class="panel report-filter-panel">
+            <div class="panel-header">
+              <h2>Período dos relatórios</h2>
+            </div>
+            <div class="panel-actions">
+              <label>Data inicial<input id="report-start-date" type="date"></label>
+              <label>Data final<input id="report-end-date" type="date"></label>
+              <button id="report-current-month" class="secondary-button" type="button">Mês atual</button>
+            </div>
+          </section>
+          <div class="metric-grid">
+            <article class="metric">
+              <span>Vendas no mês</span>
+              <strong id="report-month-sales">R$ 0,00</strong>
+            </article>
+            <article class="metric">
+              <span>A receber</span>
+              <strong id="report-open-receivable">R$ 0,00</strong>
+            </article>
+            <article class="metric">
+              <span>Parcelas vencidas</span>
+              <strong id="report-overdue-count">0</strong>
+            </article>
+            <article class="metric">
+              <span>Consultas pagas pela ótica</span>
+              <strong id="report-consultation-cost">R$ 0,00</strong>
+            </article>
+          </div>
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Formas de pagamento</h2>
+              </div>
+              <div id="report-payment-methods" class="timeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Estoque baixo</h2>
+              </div>
+              <div id="report-low-stock" class="timeline"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="settings-section" class="view-section is-hidden">
+          <div class="split-layout">
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Backup</h2>
+              </div>
+              <p class="row-meta">Gera uma cópia do banco de dados em uma pasta local de backups.</p>
+              <div class="form-actions">
+                <button id="backup-button" type="button">Gerar backup</button>
+              </div>
+              <p id="backup-status" class="row-meta"></p>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Senha</h2>
+              </div>
+              <form id="password-form" class="form-grid">
+                <label>Senha atual<input id="current-password" type="password" autocomplete="current-password" required></label>
+                <label>Nova senha<input id="new-password" type="password" autocomplete="new-password" minlength="6" required></label>
+                <p id="password-status" class="form-error full-row" role="alert"></p>
+                <div class="form-actions">
+                  <button type="submit">Alterar senha</button>
+                </div>
+              </form>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Usuários e permissões</h2>
+              </div>
+              <form id="user-form" class="form-grid">
+                <label>Usuário<input id="user-username" autocomplete="username" required></label>
+                <label>Senha<input id="user-password" type="password" autocomplete="new-password" minlength="6" required></label>
+                <label>Permissão
+                  <select id="user-role">
+                    <option value="admin">Admin</option>
+                    <option value="operator">Operador</option>
+                    <option value="finance">Financeiro</option>
+                  </select>
+                </label>
+                <p id="user-status" class="form-error full-row" role="alert"></p>
+                <div class="form-actions">
+                  <button type="submit">Salvar usuário</button>
+                </div>
+              </form>
+              <div id="users-list" class="timeline compact-timeline"></div>
+            </section>
+            <section class="panel">
+              <div class="panel-header">
+                <h2>Auditoria</h2>
+              </div>
+              <div id="audit-log-list" class="timeline compact-timeline"></div>
+            </section>
+          </div>
+        </section>
       </section>
     </main>
+
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
 
     <script src="api.js"></script>
     <script src="app.js"></script>

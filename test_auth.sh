@@ -14,21 +14,28 @@ echo "$resp"
 if echo "$resp" | grep -q '"ok": true'; then echo "changed"; else echo "change failed"; exit 2; fi
 
 echo "Logout..."
-curl -s -b "$TMP" "$BASE/api/logout" >/dev/null
+resp=$(curl -s -b "$TMP" -H "Content-Type: application/json" -d '{}' "$BASE/api/logout")
+echo "$resp"
+if echo "$resp" | grep -q '"ok": true'; then echo "logout ok"; else echo "logout failed"; exit 3; fi
+
+echo "Protected data after logout (should fail)..."
+resp=$(curl -s -b "$TMP" "$BASE/api/data")
+echo "$resp"
+if echo "$resp" | grep -q '"Unauthorized"'; then echo "session cleared (OK)"; else echo "session still works (FAIL)"; exit 4; fi
 
 echo "Login with old password (should fail)..."
 resp=$(curl -s -c "$TMP" -H "Content-Type: application/json" -d '{"user":"admin","password":"admin123"}' "$BASE/api/login")
 echo "$resp"
-if echo "$resp" | grep -q '"ok": true'; then echo "old password still works (FAIL)"; exit 3; else echo "old password rejected (OK)"; fi
+if echo "$resp" | grep -q '"ok": true'; then echo "old password still works (FAIL)"; exit 5; else echo "old password rejected (OK)"; fi
 
 echo "Login with new password..."
 resp=$(curl -s -c "$TMP" -H "Content-Type: application/json" -d '{"user":"admin","password":"admin321"}' "$BASE/api/login")
 echo "$resp"
-if echo "$resp" | grep -q '"ok": true'; then echo "new login ok"; else echo "new login failed"; exit 4; fi
+if echo "$resp" | grep -q '"ok": true'; then echo "new login ok"; else echo "new login failed"; exit 6; fi
 
 echo "Revert password..."
 resp=$(curl -s -b "$TMP" -H "Content-Type: application/json" -d '{"oldPassword":"admin321","newPassword":"admin123"}' "$BASE/api/change-password")
 echo "$resp"
-if echo "$resp" | grep -q '"ok": true'; then echo "reverted"; else echo "revert failed"; exit 5; fi
+if echo "$resp" | grep -q '"ok": true'; then echo "reverted"; else echo "revert failed"; exit 7; fi
 
 echo "TESTS OK"
